@@ -7,6 +7,7 @@ Frequência: Diária
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
+from google.cloud import bigquery
 import requests
 import os
 
@@ -133,8 +134,6 @@ def ingerir_bcb(**context):
         ],
     )
 
-    # Import aqui para evitar erro de import no topo quando bigquery não está disponível
-    from google.cloud import bigquery  # noqa: F811 (já importado dentro das funções)
 
 
 # ── DAG ───────────────────────────────────────────────────────────────────────
