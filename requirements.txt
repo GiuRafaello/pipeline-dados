@@ -1,0 +1,25 @@
+# Airflow providers
+apache-airflow-providers-google==10.18.0
+apache-airflow-providers-postgres==5.11.0
+
+# BigQuery
+google-cloud-bigquery==3.25.0
+google-api-python-client==2.139.0
+google-auth==2.34.0
+
+# Banco de dados
+psycopg2-binary==2.9.9
+SQLAlchemy==1.4.52
+
+# Geração de dados fictícios
+faker==26.0.0
+numpy==1.26.4
+pandas==2.2.2
+
+# dbt
+dbt-core==1.8.4
+dbt-bigquery==1.8.2
+
+# Utilitários
+python-dotenv==1.0.1
+requests==2.32.3
