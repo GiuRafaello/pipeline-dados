@@ -14,7 +14,7 @@ SQLAlchemy==1.4.52
 # Geração de dados fictícios
 faker==26.0.0
 numpy==1.26.4
-pandas==2.2.2
+pandas==2.1.4
 
 # dbt
 dbt-core==1.8.4
