@@ -69,12 +69,15 @@ def extrair_tabela(tabela: str, coluna_incremental: str, desde: str, pg_conn) ->
 
 def serializar(linhas: list, loaded_at: str, source: str) -> list:
     """Converte tipos Python para JSON-serializável e adiciona colunas de auditoria."""
+    from decimal import Decimal
     resultado = []
     for r in linhas:
         row = {}
         for k, v in r.items():
             if hasattr(v, "isoformat"):
                 row[k] = v.isoformat()
+            elif isinstance(v, Decimal):
+                row[k] = float(v)
             else:
                 row[k] = v
         row["_loaded_at"] = loaded_at
