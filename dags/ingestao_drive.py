@@ -41,13 +41,19 @@ def get_drive_service():
     return build("drive", "v3", credentials=creds)
 
 
-def listar_arquivos(service, folder_id: str) -> dict:
-    """Retorna dict {nome: file_id} dos arquivos na pasta."""
-    result = service.files().list(
-        q=f"'{folder_id}' in parents and trashed=false",
-        fields="files(id, name)",
-    ).execute()
-    return {f["name"]: f["id"] for f in result.get("files", [])}
+def listar_arquivos(service, nomes: list) -> dict:
+    """Busca arquivos pelo nome (compartilhados com a Service Account)."""
+    resultado = {}
+    for nome in nomes:
+        result = service.files().list(
+            q=f"name='{nome}' and trashed=false",
+            fields="files(id, name)",
+            spaces="drive",
+        ).execute()
+        arquivos = result.get("files", [])
+        if arquivos:
+            resultado[nome] = arquivos[0]["id"]
+    return resultado
 
 
 def baixar_csv(service, file_id: str) -> list:
@@ -98,7 +104,7 @@ def ingerir_drive(**context):
     loaded_at  = datetime.utcnow().isoformat()
     bq_client  = bigquery.Client(project=PROJECT_ID)
     service    = get_drive_service()
-    arquivos   = listar_arquivos(service, FOLDER_ID)
+    arquivos   = listar_arquivos(service, list(ARQUIVOS.keys()))
 
     print(f"Arquivos encontrados no Drive: {list(arquivos.keys())}")
 
